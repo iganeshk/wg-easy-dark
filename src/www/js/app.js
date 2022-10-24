@@ -242,10 +242,10 @@ new Vue({
     },
     toggleTheme() {
       if (this.isDark) {
-        localStorage.theme = "light";
+        localStorage.theme = 'light';
         document.documentElement.classList.remove('dark');
       } else {
-        localStorage.theme = "dark";
+        localStorage.theme = 'dark';
         document.documentElement.classList.add('dark');
       }
       this.isDark = !this.isDark;
