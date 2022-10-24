@@ -44,6 +44,7 @@ new Vue({
 
     currentRelease: null,
     latestRelease: null,
+    isDark: null,
 
     chartOptions: {
       chart: {
@@ -239,6 +240,16 @@ new Vue({
         .catch(err => alert(err.message || err.toString()))
         .finally(() => this.refresh().catch(console.error));
     },
+    toggleTheme() {
+      if (this.isDark) {
+        localStorage.theme = "light";
+        document.documentElement.classList.remove('dark');
+      } else {
+        localStorage.theme = "dark";
+        document.documentElement.classList.add('dark');
+      }
+      this.isDark = !this.isDark;
+    },
   },
   filters: {
     bytes,
@@ -247,6 +258,10 @@ new Vue({
     },
   },
   mounted() {
+    this.isDark = false;
+    if (localStorage.theme === 'dark') {
+      this.isDark = true;
+    }
     this.api = new API();
     this.api.getSession()
       .then(session => {
@@ -270,7 +285,7 @@ new Vue({
 
     Promise.resolve().then(async () => {
       const currentRelease = await this.api.getRelease();
-      const latestRelease = await fetch('https://weejewel.github.io/wg-easy/changelog.json')
+      const latestRelease = await fetch('https://iganeshk.github.io/wg-easy-dark/changelog.json')
         .then(res => res.json())
         .then(releases => {
           const releasesArray = Object.entries(releases).map(([version, changelog]) => ({
